@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Калькулятор ремонта квартиры — Квадрат</title>
+  <meta name="description" content="Посчитайте стоимость ремонта квартиры за минуту: площадь, тип ремонта, материалы и дополнительные работы. Смета с разбивкой и вилкой цены.">
+  <meta name="theme-color" content="#f2f3ef">
+  <meta property="og:title" content="Сколько стоит ремонт вашей квартиры">
+  <meta property="og:description" content="Шесть вопросов и смета с разбивкой по работам и материалам.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="logo" href="#" aria-label="Квадрат, на главную">
+        <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+          <rect x="3" y="3" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3"/>
+          <path d="M3 16h9M20 3v9" stroke="currentColor" stroke-width="3"/>
+          <rect x="20" y="20" width="9" height="9" fill="var(--tape)"/>
+        </svg>
+        <span><b data-brand="name">Квадрат</b><small data-brand="tagline">ремонт квартир под ключ</small></span>
+      </a>
+      <div class="topbar__contacts">
+        <span class="topbar__city" data-brand="city">Москва и область</span>
+        <a class="topbar__phone" data-brand="phone" href="tel:+79000000000">+7 (900) 000-00-00</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <h1>Сколько стоит ремонт вашей квартиры</h1>
+      <p class="hero__lead">Ответьте на шесть вопросов и получите смету с разбивкой по работам и материалам. Без звонка и регистрации: цифры меняются сразу, пока вы отвечаете.</p>
+      <ul class="hero__facts">
+        <li><b>Смета в договоре</b> не растёт по ходу ремонта</li>
+        <li><b>Оплата поэтапно</b> после приёмки каждого этапа</li>
+        <li><b>Гарантия 3 года</b> на все работы</li>
+      </ul>
+    </section>
+
+    <section class="workspace wrap" id="calc" aria-label="Калькулятор стоимости ремонта">
+      <form class="quiz" id="quiz" novalidate>
+        <div class="quiz__head">
+          <p class="quiz__counter" id="quiz-counter" aria-live="polite">Вопрос 1 из 6</p>
+          <div class="quiz__progress" role="progressbar" aria-label="Прогресс" aria-valuemin="0" aria-valuemax="6" aria-valuenow="1">
+            <span id="quiz-progress-bar"></span>
+          </div>
+        </div>
+
+        <div class="quiz__steps" id="quiz-steps">
+          <noscript><p class="quiz__noscript">Для расчёта включите JavaScript или позвоните нам.</p></noscript>
+        </div>
+
+        <div class="quiz__nav" id="quiz-nav">
+          <button type="button" class="btn btn--ghost" id="btn-back">Назад</button>
+          <button type="button" class="btn btn--primary" id="btn-next">Дальше</button>
+        </div>
+      </form>
+
+      <aside class="sheet" id="sheet" aria-label="Предварительная смета">
+        <div class="sheet__paper">
+          <header class="sheet__head">
+            <div>
+              <p class="sheet__kicker">Предварительная смета</p>
+              <p class="sheet__no">№ <span id="sheet-no">—</span> от <span id="sheet-date">—</span></p>
+            </div>
+            <button type="button" class="sheet__print" id="btn-print" title="Сохранить смету в PDF">PDF</button>
+          </header>
+
+          <table class="sheet__table">
+            <tbody id="sheet-rows"></tbody>
+          </table>
+
+          <div class="sheet__total">
+            <p class="sheet__total-label">Итого ориентировочно</p>
+            <p class="sheet__total-value"><span id="sheet-low">—</span><span class="sheet__dash">–</span><span id="sheet-high">—</span></p>
+            <dl class="sheet__meta">
+              <div><dt>Срок</dt><dd id="sheet-weeks">—</dd></div>
+              <div><dt>За м²</dt><dd id="sheet-perm2">—</dd></div>
+            </dl>
+            <p class="sheet__note" id="sheet-note">Пока по типовым параметрам. Отвечайте на вопросы, и смета уточнится.</p>
+          </div>
+
+          <table class="stamp" aria-hidden="true">
+            <tr><td class="stamp__label">Объект</td><td id="stamp-object">—</td><td class="stamp__label">Лист</td><td>1</td></tr>
+            <tr><td class="stamp__label">Ремонт</td><td id="stamp-repair">—</td><td class="stamp__label">Листов</td><td>1</td></tr>
+            <tr><td class="stamp__label">Площадь</td><td id="stamp-area">—</td><td colspan="2" class="stamp__brand" data-brand="name">Квадрат</td></tr>
+          </table>
+        </div>
+      </aside>
+    </section>
+
+    <section class="method wrap" id="method">
+      <h2>Откуда берутся цифры</h2>
+      <p class="method__lead">Калькулятор считает так же, как сметчик на первом созвоне: расценка за квадратный метр по типу ремонта, отдельная цена за санузел, коэффициент на состояние объекта и материалы долей от работ. Точную смету даём после бесплатного замера.</p>
+      <div class="method__table-wrap">
+        <table class="method__table">
+          <thead><tr><th scope="col">Ремонт</th><th scope="col">Работы, ₽/м²</th><th scope="col">Санузел, ₽</th><th scope="col">Срок на 50 м²</th></tr></thead>
+          <tbody id="method-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="faq wrap" id="faq">
+      <h2>Частые вопросы</h2>
+      <details>
+        <summary>Насколько точен расчёт?</summary>
+        <p>Обычно итоговая смета попадает в показанную вилку. Выйти за неё может, если на замере найдутся скрытые проблемы: кривые стены сильнее нормы, аварийная проводка, перекрытия под замену.</p>
+      </details>
+      <details>
+        <summary>Замер платный?</summary>
+        <p>Нет. Инженер приезжает, снимает размеры, фотографирует коммуникации и через два дня присылает подробную смету по позициям.</p>
+      </details>
+      <details>
+        <summary>Можно купить материалы самостоятельно?</summary>
+        <p>Да, выберите «Покупаю сам» на четвёртом шаге. Мы дадим список с количеством, чтобы ничего не пришлось докупать в процессе.</p>
+      </details>
+      <details>
+        <summary>Как проходит оплата?</summary>
+        <p>Работы делятся на этапы: черновые, инженерные, чистовые. Вы платите за этап после того, как приняли предыдущий. Предоплата только на закупку материалов.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <p><span data-brand="name">Квадрат</span> · <span data-brand="city">Москва и область</span> · <a data-brand="phone" href="tel:+79000000000">+7 (900) 000-00-00</a></p>
+      <p class="footer__small">Расчёт предварительный и не является публичной офертой.</p>
+    </div>
+  </footer>
+
+  <div class="mbar" id="mbar" hidden>
+    <a class="mbar__link" href="#sheet">
+      <span class="mbar__label">Смета</span>
+      <span class="mbar__value" id="mbar-value">—</span>
+    </a>
+  </div>
+</body>
+</html>
