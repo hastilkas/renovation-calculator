@@ -6,6 +6,8 @@
 
 Для ремонтных бригад, студий интерьера и маркетологов, которые ведут на квиз трафик из Директа и таргета
 
+### [🔗 Открыть сайт](https://renovation-calculator-gamma.vercel.app)
+
 <br>
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES_modules-F7DF1E?style=flat-square&logo=javascript&logoColor=black)

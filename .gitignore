@@ -4,3 +4,7 @@ node_modules/
 *.log
 портфолио/
 Портфолио/
+
+.vercel
+.env*
+!.env.example
